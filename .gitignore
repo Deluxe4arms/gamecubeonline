@@ -1,0 +1,12 @@
+.DS_Store
+**/.DS_Store
+node_modules/
+
+# Keep personal game images and emulator saves out of the public repository.
+*.iso
+*.nkit.iso
+*.gcm
+*.rvz
+*.ciso
+*.wbfs
+*.sav

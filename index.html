@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090d18">
+  <meta name="description" content="A fan-made browser arcade launcher for playing your own LEGO Star Wars GameCube disc image.">
+  <title>LEGO Star Wars Arcade — Browser GameCube Player</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="space-noise" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="LEGO Star Wars Arcade home">
+      <span class="brand-brick" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="brand-copy"><strong>LEGO STAR WARS</strong><small>ARCADE</small></span>
+    </a>
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="#play">PLAY</a><a href="#guide">HOW TO PLAY</a><a href="#controls">CONTROLS</a>
+    </nav>
+    <a class="header-cta" href="#play">ENTER THE ARCADE <span>↗</span></a>
+    <button class="menu-toggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> GAMECUBE CLASSICS · FAN-MADE WEB ARCADE</div>
+        <h1>A GALAXY<br><span>BUILT FOR</span><br><em>ADVENTURE.</em></h1>
+        <p class="hero-text">Fire up the original LEGO Star Wars GameCube adventure in your browser. Bring your own game image, connect a controller, and jump into the action.</p>
+        <div class="hero-actions">
+          <a class="button button-gold" href="#play"><span class="button-icon">▶</span> PLAY YOUR GAME <b>↗</b></a>
+          <a class="button button-quiet" href="#guide">HOW IT WORKS <b>↓</b></a>
+        </div>
+        <div class="hero-footnote"><span>ⓘ</span> Your game file stays on your device. This website does not host or distribute game images.</div>
+      </div>
+      <div class="hero-art" aria-label="Original space-themed arcade illustration">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="planet planet-back"></div><div class="planet planet-main"><span></span></div>
+        <div class="moon"></div><div class="ship ship-one"><i></i></div><div class="ship ship-two"><i></i></div>
+        <div class="hero-art-label"><small>EPISODE I–VI</small><strong>THE<br>ADVENTURE<br>BEGINS</strong><span>GAMECUBE EDITION</span></div>
+        <div class="spark spark-a">✦</div><div class="spark spark-b">✧</div><div class="spark spark-c">✦</div>
+      </div>
+      <div class="hero-bottom"><span>01 / ORIGINAL GAMECUBE RELEASE</span><span>LOCAL GAME FILE · KEYBOARD · GAMEPAD</span><span>SCROLL TO EXPLORE ↓</span></div>
+    </section>
+
+    <section class="play-section section-wrap" id="play">
+      <div class="section-kicker">YOUR NEXT MISSION</div>
+      <div class="section-title-row"><div><h2>READY TO <em>PLAY?</em></h2><p>Load your own GameCube disc image into the browser emulator.</p></div><span class="status-chip"><i></i> ARCADE LAUNCHER</span></div>
+      <div class="player-card">
+        <div class="player-screen">
+          <div class="screen-stars"></div>
+          <div class="screen-top"><span>LSW // GAMECUBE</span><span class="screen-live"><i></i> PLAYER BAY</span></div>
+          <div class="screen-center">
+            <div class="screen-emblem"><span>✦</span></div>
+            <div class="screen-heading">INSERT YOUR<br><em>ADVENTURE</em></div>
+            <p>Choose a supported disc image to prepare your session.</p>
+            <label class="button button-gold file-button" for="game-file"><span>＋</span> SELECT GAME FILE</label>
+            <input id="game-file" type="file" accept=".iso,.gcm,.rvz,.ciso,.nkit.iso,application/octet-stream" hidden>
+            <div class="file-status" id="file-status" role="status" aria-live="polite">NO GAME FILE SELECTED</div>
+          </div>
+          <div class="screen-corner screen-corner-left">BROWSER ARCADE</div><div class="screen-corner screen-corner-right">LOCAL ONLY</div>
+        </div>
+        <aside class="player-info">
+          <div class="info-top"><span class="info-label">FEATURED GAME</span><span class="rating-tag">GAMECUBE</span></div>
+          <div class="game-title">LEGO<br><strong>STAR WARS</strong></div>
+          <p class="game-subtitle">THE ORIGINAL TRILOGY ADVENTURE</p>
+          <div class="info-divider"></div>
+          <div class="spec-row"><span>PLATFORM</span><b>NINTENDO GAMECUBE</b></div>
+          <div class="spec-row"><span>FILE TYPES</span><b>ISO · GCM · RVZ*</b></div>
+          <div class="spec-row"><span>INPUT</span><b>KEYBOARD / GAMEPAD</b></div>
+          <div class="info-note">*Actual supported formats depend on the emulator build. The selected file is not uploaded.</div>
+          <a class="button button-outline full-button" href="player/">OPEN EMULATOR PLAYER <b>↗</b></a>
+          <div class="player-warning" id="player-warning">Select a disc, then open the emulator to begin. The emulator loads the file locally in your browser.</div>
+        </aside>
+      </div>
+      <div class="privacy-line"><span>🔒</span> PRIVATE BY DESIGN — file selection is local to your browser. Nothing is sent to this website.</div>
+    </section>
+
+    <section class="guide-section section-wrap" id="guide">
+      <div class="section-kicker">START YOUR QUEST</div>
+      <h2>THREE STEPS TO <em>HYPERSPACE.</em></h2>
+      <div class="steps-grid">
+        <article class="step-card"><div class="step-top"><span>01</span><span class="step-symbol">◈</span></div><h3>OPEN THE PLAYER</h3><p>Launch the emulator player from the arcade. Use a desktop Chromium browser for the best chance of compatibility.</p></article>
+        <article class="step-card"><div class="step-top"><span>02</span><span class="step-symbol">▣</span></div><h3>LOAD YOUR DISC IMAGE</h3><p>Select your own legally obtained GameCube ISO or another format supported by the emulator.</p></article>
+        <article class="step-card"><div class="step-top"><span>03</span><span class="step-symbol">✦</span></div><h3>BEGIN THE ADVENTURE</h3><p>Configure your keyboard or gamepad, start the game, and switch to fullscreen when you're ready.</p></article>
+      </div>
+    </section>
+
+    <section class="controls-section section-wrap" id="controls">
+      <div class="controls-copy"><div class="section-kicker">PILOT CONFIGURATION</div><h2>CHOOSE YOUR<br><em>CONTROLS.</em></h2><p>The browser emulator supports keyboard input and standard gamepads. Exact mappings may be changed in the emulator settings.</p><div class="controller-detect" id="controller-status"><span class="controller-dot"></span> CONTROLLER CHECK: WAITING FOR INPUT</div></div>
+      <div class="controls-board">
+        <div class="control-item"><kbd>W A S D</kbd><span>MAIN STICK</span></div>
+        <div class="control-item"><kbd>↑ ↓ ← →</kbd><span>D-PAD</span></div>
+        <div class="control-item"><kbd>ENTER</kbd><span>START</span></div>
+        <div class="control-item"><kbd>X Z S A</kbd><span>A / B / X / Y</span></div>
+        <div class="control-item"><kbd>Q E C</kbd><span>L / R / Z</span></div>
+        <div class="control-item"><kbd>USB / BT</kbd><span>GAMEPAD</span></div>
+      </div>
+    </section>
+
+    <section class="compat-section section-wrap">
+      <div><div class="section-kicker">BEFORE TAKEOFF</div><h2>CHECK YOUR <em>SYSTEM.</em></h2><p>Browser emulation is demanding. These checks help identify common setup requirements.</p></div>
+      <div class="compat-list" id="compat-list">
+        <div class="compat-row" data-check="secure"><span class="compat-icon">◉</span><span><b>Secure browser context</b><small>HTTPS or localhost required for key browser features</small></span><strong>CHECKING</strong></div>
+        <div class="compat-row" data-check="isolation"><span class="compat-icon">◉</span><span><b>Cross-origin isolation</b><small>SharedArrayBuffer requires COOP and COEP response headers</small></span><strong>CHECKING</strong></div>
+        <div class="compat-row" data-check="webgpu"><span class="compat-icon">◉</span><span><b>WebGPU availability</b><small>Hardware support depends on browser and graphics driver</small></span><strong>CHECKING</strong></div>
+        <div class="compat-row" data-check="gamepad"><span class="compat-icon">◉</span><span><b>Gamepad API</b><small>Connect a controller and press a button to detect it</small></span><strong>CHECKING</strong></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><a class="brand" href="#home"><span class="brand-brick" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="brand-copy"><strong>LEGO STAR WARS</strong><small>ARCADE</small></span></a><div class="footer-copy"><p>Unofficial fan-made browser arcade. Not affiliated with or endorsed by The LEGO Group, Lucasfilm, Nintendo, or the Dolphin Emulator Project.</p><p>Game images are not included. Use only game files you are authorized to use.</p></div><a class="footer-link" href="https://github.com/dougchansan/wasm-dolphin" target="_blank" rel="noopener noreferrer">EMULATOR PROJECT ↗</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>
