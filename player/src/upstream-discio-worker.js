@@ -5117,18 +5117,22 @@ function drawFrameBytesToWebGpu(width, height, frameView) {
     return;
   }
 
+  // Keep the browser-facing WebGPU canvas at 1080p. Dolphin's source frame
+  // remains native resolution and the presenter linearly upscales it.
+  const outputWidth = 1920;
+  const outputHeight = 1080;
   const gpu = renderGpu;
   const textureUsage = self.GPUTextureUsage;
   if (!textureUsage) {
     return;
   }
 
-  if (renderCanvas.width !== width || renderCanvas.height !== height) {
-    renderCanvas.width = width;
-    renderCanvas.height = height;
+  if (renderCanvas.width !== outputWidth || renderCanvas.height !== outputHeight) {
+    renderCanvas.width = outputWidth;
+    renderCanvas.height = outputHeight;
   }
 
-  if (gpu.canvasWidth !== width || gpu.canvasHeight !== height) {
+  if (gpu.canvasWidth !== outputWidth || gpu.canvasHeight !== outputHeight) {
     gpu.context.configure({
       alphaMode: "opaque",
       device: gpu.device,
@@ -5137,8 +5141,8 @@ function drawFrameBytesToWebGpu(width, height, frameView) {
         ((wgpuReplayClassifier || inputReadbackDiagnostics) ? textureUsage.COPY_SRC : 0) |
         (wgpuVisualCadenceEnabled ? textureUsage.TEXTURE_BINDING : 0)
     });
-    gpu.canvasWidth = width;
-    gpu.canvasHeight = height;
+    gpu.canvasWidth = outputWidth;
+    gpu.canvasHeight = outputHeight;
   }
 
   if (gpu.textureWidth !== width || gpu.textureHeight !== height) {
