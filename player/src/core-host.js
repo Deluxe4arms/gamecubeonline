@@ -94,6 +94,14 @@ export class EmulatorHost {
     this.presentationQueueSize = requestedPresentationQueueSize();
     this.presenterBackend = requestedPresenterBackend();
     this.presentationPacing = requestedPresentationPacing(this.videoBackend);
+    if (
+      this.coreKind === "upstream" &&
+      (this.videoBackend === "Software Renderer" || this.videoBackend === "WebGPU") &&
+      this.presenterBackend === "webgpu"
+    ) {
+      canvas.width = 1920;
+      canvas.height = 1080;
+    }
     this.legacyTickQueue = legacyTickQueueRequested(window.location.search);
     this.oglProxyMode = requestedOglProxyMode();
     this.oglTestClear = requestedOglTestClear();
