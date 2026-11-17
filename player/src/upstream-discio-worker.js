@@ -4695,19 +4695,57 @@ fn vs(@builtin(vertex_index) vertex_index: u32) -> VertexOutput {
 @group(0) @binding(0) var frame_sampler: sampler;
 @group(0) @binding(1) var frame_texture: texture_2d<f32>;
 
+fn frame_luma(uv: vec2f) -> f32 {
+  let color = textureSample(frame_texture, frame_sampler, uv).rgb;
+  return dot(color, vec3f(0.299, 0.587, 0.114));
+}
+
 @fragment
 fn fs(input: VertexOutput) -> @location(0) vec4f {
-  return textureSample(frame_texture, frame_sampler, input.uv);
+  let center = textureSample(frame_texture, frame_sampler, input.uv);
+  let texel = 1.0 / vec2f(textureDimensions(frame_texture));
+  let northWest = frame_luma(input.uv + vec2f(-texel.x, -texel.y));
+  let northEast = frame_luma(input.uv + vec2f(texel.x, -texel.y));
+  let southWest = frame_luma(input.uv + vec2f(-texel.x, texel.y));
+  let southEast = frame_luma(input.uv + vec2f(texel.x, texel.y));
+  let centerLuma = dot(center.rgb, vec3f(0.299, 0.587, 0.114));
+  let lumaMin = min(centerLuma, min(min(northWest, northEast), min(southWest, southEast)));
+  let lumaMax = max(centerLuma, max(max(northWest, northEast), max(southWest, southEast)));
+
+  if (lumaMax - lumaMin < max(0.0312, lumaMax * 0.125)) {
+    return center;
+  }
+
+  var direction = vec2f(
+    -((northWest + northEast) - (southWest + southEast)),
+    (northWest + southWest) - (northEast + southEast)
+  );
+  let reduction = max(
+    (northWest + northEast + southWest + southEast) * 0.03125,
+    1.0 / 128.0
+  );
+  direction = clamp(
+    direction / (min(abs(direction.x), abs(direction.y)) + reduction),
+    vec2f(-8.0),
+    vec2f(8.0)
+  ) * texel;
+
+  let blendA = 0.5 * (
+    textureSample(frame_texture, frame_sampler, input.uv + direction * -0.166667) +
+    textureSample(frame_texture, frame_sampler, input.uv + direction * 0.166667)
+  );
+  let blendB = blendA * 0.5 + 0.25 * (
+    textureSample(frame_texture, frame_sampler, input.uv + direction * -0.5) +
+    textureSample(frame_texture, frame_sampler, input.uv + direction * 0.5)
+  );
+  let blendLuma = dot(blendB.rgb, vec3f(0.299, 0.587, 0.114));
+  let result = select(blendB, blendA, blendLuma < lumaMin || blendLuma > lumaMax);
+  return vec4f(result.rgb, center.a);
 }
 `
   });
-  // Day-21: linear filtering on the XFB→canvas blit. The GameCube
-  // XFB is 640x480; the visible canvas is usually larger, so nearest
-  // sampling magnified every texel into a hard block — and that
-  // compounded fastsw=1's already-half-res output into a very chunky
-  // image. Linear costs nothing on the GPU and smooths the upscale,
-  // closer to how Dolphin's other backends present. (Native res is
-  // unchanged; this is purely the final present-stage filter.)
+  // Linear filtering softens the native-resolution upscale; the presenter
+  // shader applies FXAA to high-contrast edges without changing game pixels.
   const sampler = device.createSampler({
     label: "dolphin-xfb-linear",
     magFilter: "linear",
