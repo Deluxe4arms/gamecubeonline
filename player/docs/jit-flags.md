@@ -78,3 +78,9 @@ bursts, low block reuse, helper overhead, renderer bottlenecks, browser codegen,
 and backend-specific synchronization can hide or reverse a CPU-side gain. Use
 same-machine A/B runs and distinguish emulation progress from presentation and
 unique-frame cadence.
+
+If a generated JIT block fails WebAssembly validation, the compile bridge logs
+the first few failures and rejects that block so the cached interpreter can
+execute it instead. This keeps one malformed block from terminating the worker;
+it does not guarantee that the remaining JIT workload will be faster on every
+game or browser.

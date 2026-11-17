@@ -1,7 +1,8 @@
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
 import { packageCoreCandidate, writeCoreBuildInfo } from "./core-build-info.mjs";
+import { applyInvalidJitBlockFallback } from "./jit-compile-fallback.mjs";
 import { verifyWasmToolchain } from "./wasm-toolchain.mjs";
 
 const root = process.cwd();
@@ -25,6 +26,13 @@ if (result.error || result.status !== 0) {
 }
 
 if (target === "dolphin_web_core") {
+  const configure = JSON.parse(
+    readFileSync(resolve(buildDir, "wasm-dolphin-configure.json"), "utf8")
+  );
+  const coreJs = resolve(configure.outputDir, "dolphin-core-upstream.js");
+  if (applyInvalidJitBlockFallback(coreJs)) {
+    console.log("Added safe interpreter fallback for invalid generated JIT blocks.");
+  }
   const buildInfo = writeCoreBuildInfo({ buildDir, toolchain });
   console.log(`Wrote core build evidence to ${buildInfo.destination}`);
   const candidate = packageCoreCandidate(buildInfo.destination);
