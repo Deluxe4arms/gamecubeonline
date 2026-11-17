@@ -43,6 +43,10 @@ git clone https://github.com/dougchansan/wasm-dolphin && cd wasm-dolphin && npm 
 SharedArrayBuffer needs) and opens the page in your default browser. Then
 **drag a disc image onto the page**.
 
+Use the **HD** button in the player controls to put the game on the full screen;
+the WebGPU presenter uses a 1920x1080 output canvas. This upscales the GameCube
+image and does not add native 1080p game detail. Press **Esc** to leave fullscreen.
+
 That is the whole setup. Two variants if you need them:
 
 ```bash

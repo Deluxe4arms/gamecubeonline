@@ -52,6 +52,7 @@ const elements = {
   dropZone: document.querySelector("#dropZone"),
   frameCounter: document.querySelector("#frameCounter"),
   fullscreenButton: document.querySelector("#fullscreenButton"),
+  gameFullscreenButton: document.querySelector("#gameFullscreenButton"),
   fpsCounter: document.querySelector("#fpsCounter"),
   visualFpsCounter: document.querySelector("#visualFpsCounter"),
   gameSpeedCounter: document.querySelector("#gameSpeedCounter"),
@@ -438,13 +439,20 @@ function wireTransport() {
                       audio.label(), "Mute or unmute audio");
   });
 
-  elements.fullscreenButton.addEventListener("click", async () => {
+  elements.fullscreenButton.addEventListener("click", toggleGameFullscreen);
+  elements.gameFullscreenButton.addEventListener("click", toggleGameFullscreen);
+}
+
+async function toggleGameFullscreen() {
+  try {
     if (document.fullscreenElement) {
       await document.exitFullscreen();
     } else {
       await elements.dropZone.requestFullscreen();
     }
-  });
+  } catch (error) {
+    setStatus(`Fullscreen unavailable: ${error?.message || error}`, "error");
+  }
 }
 
 function wireSettings() {

@@ -873,6 +873,13 @@ h2 {
   text-shadow: 0 0 6px rgba(231, 183, 90, 0.35);
 }
 
+.transport .fullscreen-hd-label {
+  color: var(--amber);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
 .transport .btn-text {
   font-size: 12px;
   letter-spacing: 0.08em;
