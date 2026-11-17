@@ -1211,13 +1211,19 @@ function parseJitState(info) {
 }
 
 function parsePresentationResolution(info) {
+  const outputWidth = elements.screen.width;
+  const outputHeight = elements.screen.height;
+  if (outputWidth > 0 && outputHeight > 0) {
+    return `${outputWidth}x${outputHeight}`;
+  }
+
   const helperStats = info.ppcWasmHelperStats || "";
   const match = /present:(\d+x\d+)/i.exec(helperStats);
   if (match) {
     return match[1];
   }
 
-  return `${elements.screen.width}x${elements.screen.height}`;
+  return "n/a";
 }
 
 function formatOffsetSize(offset, size) {

@@ -6,6 +6,7 @@ A fan-made browser arcade launcher with an integrated GameCube emulator. It uses
 
 - Responsive arcade landing page and browser capability checks.
 - The [wasm-dolphin](https://github.com/dougchansan/wasm-dolphin) player in `player/`.
+- The WebGPU presenter outputs to a 1920x1080 browser canvas; GameCube source detail remains at the game's native resolution (typically up to 640x480).
 - A local file picker that saves the selected game in browser storage and opens it in the emulator. Game files are not uploaded to this site.
 - Hosting headers for cross-origin isolation.
 
