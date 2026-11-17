@@ -33,8 +33,8 @@ software rasterization stage and are useful fallbacks or diagnostics.
 `fastsw=3` use more aggressive raster/encode approximations; they can raise
 distinct-frame cadence but are not guaranteed to raise game speed.
 
-The WebGPU presenter outputs to a 1920x1080 browser canvas, linearly upscales
-the software-rendered frame, and applies FXAA to smooth high-contrast edges.
+The WebGPU presenter outputs to a 1920x1080 browser canvas and linearly
+upscales the software-rendered frame.
 This is an HD-sized output surface, not native 1080p game rendering: source
 detail remains limited to the GameCube frame resolution (up to 640x480).
 
