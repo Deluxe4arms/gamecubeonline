@@ -3,7 +3,7 @@ export const PLAYABLE_PRESET = Object.freeze({
   video: "software",
   cpu: "dual",
   speed: "1",
-  present: "full",
+  present: "1080p",
   presenter: "webgpu",
   pacing: "tick",
   oglproxy: "worker",
@@ -22,7 +22,7 @@ const DEFAULT_SETTINGS = Object.freeze({
   video: "software",
   cpu: "dual",
   speed: "1",
-  present: "full",
+  present: "1080p",
   presenter: "webgpu",
   pacing: "tick",
   oglproxy: "worker",
@@ -39,7 +39,7 @@ const CHOICE_SETS = Object.freeze({
   video: new Set(["software", "wgpu", "ogl", "null"]),
   cpu: new Set(["auto", "single", "dual"]),
   speed: new Set(["0.5", "0.75", "1", "1.25", "1.5", "unlimited"]),
-  present: new Set(["full", "0.75", "half"]),
+  present: new Set(["1080p", "full", "0.75", "half"]),
   presenter: new Set(["webgpu", "webgl", "2d"]),
   pacing: new Set(["tick", "direct", "smooth"]),
   oglproxy: new Set(["proxy", "worker", "main", "readback"]),
@@ -61,7 +61,9 @@ export function readSettingsFromSearch(search) {
     video: normalizeChoice("video", params.get("video") || "software"),
     cpu: normalizeChoice("cpu", params.get("cpu") || DEFAULT_SETTINGS.cpu),
     speed: normalizeChoice("speed", normalizeSpeed(params.get("speed"))),
-    present: normalizeChoice("present", normalizePresentationScale(params.get("present"))),
+    present: params.has("present")
+      ? normalizeChoice("present", normalizePresentationScale(params.get("present")))
+      : DEFAULT_SETTINGS.present,
     presenter: normalizeChoice("presenter", normalizePresenter(params.get("presenter"))),
     pacing: normalizeChoice("pacing", params.get("pacing") || DEFAULT_SETTINGS.pacing),
     oglproxy: normalizeChoice("oglproxy", normalizeOglProxy(params.get("oglproxy"))),
@@ -155,6 +157,10 @@ function normalizeSpeed(value) {
 }
 
 function normalizePresentationScale(value) {
+  if (value === "1080p") {
+    return "1080p";
+  }
+
   if (value === "half") {
     return "half";
   }

@@ -14,7 +14,7 @@ test("uses the playable startup profile when no URL settings are present", () =>
     video: "software",
     cpu: "dual",
     speed: "1",
-    present: "full",
+    present: "1080p",
     presenter: "webgpu",
     pacing: "tick",
     oglproxy: "worker",
@@ -50,6 +50,14 @@ test("reads emulator startup settings from URL search params", () => {
   });
 });
 
+test("keeps the explicit upscaled 1080p output selection", () => {
+  const settings = readSettingsFromSearch("?present=1080p");
+  assert.equal(settings.present, "1080p");
+
+  const url = new URL(buildSettingsHref("http://localhost:5173/", settings));
+  assert.equal(url.searchParams.get("present"), null);
+});
+
 test("falls back to supported startup settings for unknown values", () => {
   const settings = readSettingsFromSearch(
     "?core=bad&video=vulkan&cpu=many&speed=9&present=2&presenter=metal&pacing=bad&oglproxy=bad&wasmjit=yes&jittier=turbo&forcejit=yes&queue=99&fastsw=9"
@@ -79,7 +87,7 @@ test("builds a minimal href by omitting playable default settings", () => {
     video: "software",
     cpu: "dual",
     speed: "1",
-    present: "full",
+    present: "1080p",
     presenter: "webgpu",
     pacing: "tick",
     oglproxy: "worker",

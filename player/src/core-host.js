@@ -1267,7 +1267,7 @@ function requestedEmulationSpeed() {
 function requestedPresentationScale() {
   const params = new URLSearchParams(window.location.search);
   const raw = params.get("present");
-  if (raw === "full") {
+  if (raw === "1080p" || raw === "full") {
     return 1;
   }
   if (raw === "half") {

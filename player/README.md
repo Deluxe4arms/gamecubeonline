@@ -129,7 +129,7 @@ configuration.
 | Core | Upstream | Which core the host loads. **Upstream** is the Emscripten build of Dolphin; *Native* is the from-scratch scaffold under `core/native`. | `core=upstream` |
 | Renderer | Software | Which Dolphin video backend runs. **Software** is the rasterizer everything is validated against; *WebGPU hardware* is the experimental GPU path, and *Null* draws nothing. | `video=software` |
 | GPU path | Direct worker GL | How the OpenGL backend's context reaches the canvas — only meaningful for *Renderer: OpenGL*. **Direct worker GL** keeps the context in the worker and posts a frame back per present. | `oglproxy=worker` |
-| Frame scale | Full 640x480 | Scale of the source frame sent to the presenter. On the WebGPU presenter the browser-facing output canvas is 1920x1080; this upscales the image but does not add native game detail. | `present=full` |
+| Output / frame scale | 1080p output (upscaled) | The WebGPU presenter outputs to a 1920x1080 browser canvas; GameCube source detail remains at the game's native resolution. Choose a lower source-frame scale to reduce presentation cost. | `present=1080p` |
 | Speed | 1x | Emulation speed target. *Unlimited* removes the throttle and runs as fast as the machine allows. | `speed=1` |
 | CPU | Dual core | Whether the core runs its CPU and GPU threads separately (**Dual core**) or folded onto one. | `cpu=dual` |
 | Presenter | WebGPU | Which browser API blits the finished frame onto the canvas. Falls back to *WebGL* / *Canvas 2D* where WebGPU is unavailable. | `presenter=webgpu` |
