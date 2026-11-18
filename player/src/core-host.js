@@ -1300,7 +1300,7 @@ function requestedPresenterBackend() {
   if (requested === "webgl") {
     return "webgl";
   }
-  return "webgpu";
+  return "webgl";
 }
 
 function requestedPresentationPacing(videoBackend = "Software Renderer") {
