@@ -43,9 +43,11 @@ git clone https://github.com/dougchansan/wasm-dolphin && cd wasm-dolphin && npm 
 SharedArrayBuffer needs) and opens the page in your default browser. Then
 **drag a disc image onto the page**.
 
-Use the **HD** button in the player controls to put the game on the full screen;
-the WebGPU presenter uses a 1920x1080 output canvas. This upscales the GameCube
-image and does not add native 1080p game detail. Press **Esc** to leave fullscreen.
+Use the **HD** button in the player controls to put the game on the full screen.
+The WebGL presenter is the default for startup reliability. To use the optional
+1920x1080 WebGPU output, select **WebGPU** and **1080p output** in settings; this
+upscales the GameCube image and does not add native 1080p game detail. Press
+**Esc** to leave fullscreen.
 
 That is the whole setup. Two variants if you need them:
 
@@ -133,10 +135,10 @@ configuration.
 | Core | Upstream | Which core the host loads. **Upstream** is the Emscripten build of Dolphin; *Native* is the from-scratch scaffold under `core/native`. | `core=upstream` |
 | Renderer | Software | Which Dolphin video backend runs. **Software** is the rasterizer everything is validated against; *WebGPU hardware* is the experimental GPU path, and *Null* draws nothing. | `video=software` |
 | GPU path | Direct worker GL | How the OpenGL backend's context reaches the canvas — only meaningful for *Renderer: OpenGL*. **Direct worker GL** keeps the context in the worker and posts a frame back per present. | `oglproxy=worker` |
-| Output / frame scale | 1080p output (upscaled) | The WebGPU presenter outputs to a 1920x1080 browser canvas; GameCube source detail remains at the game's native resolution. Choose a lower source-frame scale to reduce presentation cost. | `present=1080p` |
+| Output / frame scale | Full 640x480 | The WebGPU presenter can output to a 1920x1080 browser canvas; GameCube source detail remains at the game's native resolution. Choose a lower source-frame scale to reduce presentation cost. | `present=full` |
 | Speed | 1x | Emulation speed target. *Unlimited* removes the throttle and runs as fast as the machine allows. | `speed=1` |
 | CPU | Dual core | Whether the core runs its CPU and GPU threads separately (**Dual core**) or folded onto one. | `cpu=dual` |
-| Presenter | WebGPU | Which browser API blits the finished frame onto the canvas. Falls back to *WebGL* / *Canvas 2D* where WebGPU is unavailable. | `presenter=webgpu` |
+| Presenter | WebGL | Which browser API blits the finished frame onto the canvas. The WebGPU presenter is experimental and may show a black canvas on some systems. | `presenter=webgl` |
 | Frame queue | 4 frames | How many frames the paced presenter buffers before painting. Deeper is smoother but adds latency. | `queue=4` |
 | Pacing | Tick | When the canvas repaints. **Tick** paints each new frame immediately *and* re-paints the last good frame on a steady 16.7ms tick, so the canvas keeps refreshing while the rasterizer repeats frames. | `pacing=tick` |
 | Raster quality | Balanced | How much the software rasterizer and XFB encode are thinned. **Balanced** shades one sample per 2×2 cell; see [Raster quality](#raster-quality-fastsw). | `fastsw=1` |
@@ -167,8 +169,8 @@ link. See [rendering modes](docs/rendering-modes.md) and
 | Audio | ✅ Worker-fed/tuned audio buffering |
 | WebGPU **hardware** renderer (`video=wgpu`) | ⚠️ Correct and much faster on some titles, broken on others; opt-in per game |
 
-The default configuration is the locally validated software-hybrid path:
-`video=software&presenter=webgpu`. The true hardware WebGPU renderer is
+The default configuration is the software path with the WebGL presenter:
+`video=software&presenter=webgl`. The WebGPU presenter is opt-in. The true hardware WebGPU renderer is
 `video=wgpu` and remains experimental — but see
 [per-game renderer defaults](#per-game-renderer-defaults), which switches
 individual titles onto it automatically where that was measured *and* checked
@@ -181,15 +183,14 @@ by eye.
 
 ### Recommended explicit URL
 
-The defaults already select the software-hybrid path. This URL pins every knob,
-for reproducible measurements:
+This URL pins the default software/WebGL path and its settings for reproducible measurements:
 
 ```text
-/?core=upstream&video=software&presenter=webgpu&cpu=dual&speed=1&wasmjit=1&jitwarmup=700&oc=1&pacing=tick&fastsw=1&metrics=1
+/?core=upstream&video=software&presenter=webgl&cpu=dual&speed=1&wasmjit=1&jitwarmup=700&oc=1&pacing=tick&fastsw=1&metrics=1
 ```
 
-- `video=software` + `presenter=webgpu` — software rasterizer, presented to the
-  canvas through a WebGPU blit (the "software hybrid").
+- `video=software` + `presenter=webgl` — software rasterizer, presented to the
+  canvas through a WebGL blit.
 - `wasmjit=1` — request the guarded PPC→WASM JIT; verify each run's metrics.
 - `pacing=tick` — repaint the canvas on a steady tick for smoother scrolling
   (default for software paths).

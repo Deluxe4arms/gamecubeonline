@@ -74,7 +74,8 @@ Two, selected by `?video=`:
 
 | Path | Flags | What it does | State |
 | --- | --- | --- | --- |
-| Software hybrid | `video=software&presenter=webgpu` | Dolphin's software rasterizer writes the XFB; JS uploads and blits it | **Shipping default.** 43/45 discs; accurate but capped at ~7 mean unique visual fps |
+| Software hybrid | `video=software&presenter=webgl` | Dolphin's software rasterizer writes the XFB; JS uploads and blits it | **Shipping default.** 43/45 discs; accurate but capped at ~7 mean unique visual fps |
+| WebGPU presenter | `video=software&presenter=webgpu` | JS uploads the software-rendered XFB and blits it to a 1920x1080 canvas | **Experimental.** A black canvas was reproduced on the hosted player; use WebGL if it fails |
 | Hardware | `video=wgpu` | Dolphin's WebGPU backend drives a command ring consumed in JS | **Experimental but working.** 41/45 discs; mean unique visual fps 23.2 vs the software path's 7.1, eight titles locked at 60 — see [webgpu-hardware-renderer-bugs.md](webgpu-hardware-renderer-bugs.md) |
 
 `createWebGpuPresenter()` is **shared by both**. A change made there for the

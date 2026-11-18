@@ -9,8 +9,8 @@ software-rendered framebuffer reaches the browser canvas.
 
 | URL flag | Meaning | Recommended? | Notes |
 | --- | --- | --- | --- |
-| `video=software&presenter=webgpu` | Software rasterizer + WebGPU presenter | Yes | Default/recommended playable path |
-| `video=software&presenter=webgl` | Software rasterizer + WebGL presenter | Fallback | Use if WebGPU presenter fails |
+| `video=software&presenter=webgl` | Software rasterizer + WebGL presenter | Yes | Default playable path |
+| `video=software&presenter=webgpu` | Software rasterizer + WebGPU presenter | Experimental | A black canvas was reproduced on the hosted player; use WebGL if this path fails |
 | `video=software&presenter=canvas` or `presenter=2d` | Software rasterizer + 2D canvas | Diagnostic fallback | Slowest/simple path |
 | `video=webgpu` | Legacy/alias hybrid path, not true hardware WebGPU | Avoid in docs | Keep for compatibility if code supports it |
 | `video=wgpu` | True WebGPU hardware renderer | Experimental | Fixed battle renders on the validation GPU; remains slow and GPU-dependent |
@@ -34,7 +34,8 @@ software rasterization stage and are useful fallbacks or diagnostics.
 distinct-frame cadence but are not guaranteed to raise game speed.
 
 The WebGPU presenter outputs to a 1920x1080 browser canvas and linearly
-upscales the software-rendered frame.
+upscales the software-rendered frame. Select it explicitly to use this
+output mode; the default WebGL presenter uses the native-size canvas.
 This is an HD-sized output surface, not native 1080p game rendering: source
 detail remains limited to the GameCube frame resolution (up to 640x480).
 
